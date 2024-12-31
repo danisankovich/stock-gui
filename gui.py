@@ -11,7 +11,7 @@ layout = [
     [psg.Multiline(size=(80, 30), key='-OUTPUT-', autoscroll=True, visible=False)]
 ]
 
-window = psg.Window('HelloWorld', layout, size=(715, 500))
+window = psg.Window('Market Search', layout, size=(715, 500))
 
 while True:
     event, values = window.read()
