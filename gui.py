@@ -1,5 +1,5 @@
 import PySimpleGUI as psg
-from main import get_quote
+from quote import get_quote
 from aiRequest import ask
 
 layout = [
