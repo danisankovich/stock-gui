@@ -3,26 +3,30 @@ from main import get_quote
 from aiRequest import ask
 
 layout = [
-    [psg.Text(text='Symbol: '), psg.Input(key='-SYMBOL-')],
+    [psg.Text(text='Symbol: '), psg.Input(key='-SYMBOL-', do_not_clear=False)],
     [psg.Button('Search')],
-    [psg.Text(text='Tell Me About: '), psg.Input(key='-COMPANY-')],
-    [psg.Button('Search')]
+    [psg.Text("", size=(30, 5), key='-QUOTE-',)],
+    [psg.Text(text='Tell Me About: '), psg.Input(key='-COMPANY-', do_not_clear=False)],
+    [psg.Button('Search')],
+    [psg.Multiline(size=(80, 30), key='-OUTPUT-', autoscroll=True)]
 ]
 
-window = psg.Window('HelloWorld', layout, size=(715,250))
+window = psg.Window('HelloWorld', layout, size=(715, 500))
 
 while True:
     event, values = window.read()
     if (values and '-SYMBOL-' in values and isinstance(values['-SYMBOL-'], str)):
+        window['-QUOTE-'].update(value='')
         symbol = values['-SYMBOL-']
         if symbol:
             quote_data = get_quote(symbol.upper())
-            print(quote_data)
+            window['-QUOTE-'].update(value=quote_data)
     if (values and '-COMPANY-' in values and isinstance(values['-COMPANY-'], str)):
+        window['-OUTPUT-'].update(value='')
         symbol = values['-COMPANY-']
         if symbol:
             ai_response = ask(symbol.upper())
-            print(ai_response)
+            window['-OUTPUT-'].update(value=ai_response)
     if event in (None, 'Exit'):
         break
 
