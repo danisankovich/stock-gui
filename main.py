@@ -32,7 +32,3 @@ def get_quote(symbol):
     except requests.exceptions.RequestException as e:
         print('Error: ', e)
         return None
-
-
-result = get_quote('ALLY')
-print(result)
