@@ -1,8 +1,9 @@
 # stock-gui
 simple GUI for looking up market details, asking questions about the market, and keeping track of investments and watchlists
 
+https://finnhub.io/dashboard
 
-TODO: Improve the stock suggestion implementation https://docs.aimlapi.com/
+TODO: Improve the company information request implementation https://docs.aimlapi.com/
 
 TODO: AI hook to ask questions about the market (terms, rules, etc)
 
