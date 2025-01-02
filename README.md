@@ -1,7 +1,7 @@
 # stock-gui
 simple GUI for looking up market details, asking questions about the market, and keeping track of investments and watchlists
 
-if you wish to clone and run this application, you need api keys from aimlapi and finnhub
+if you wish to clone and run this application, you need api keys from aimlapi and finnhub into a .env file on the root directory
 
 https://finnhub.io/dashboard
 
