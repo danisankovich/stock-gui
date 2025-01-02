@@ -3,7 +3,7 @@ from quote import get_quote
 from aiRequest import ask
 
 layoutOne = [
-    [psg.Button('Company Search', key='Company_Pane')],
+    [psg.Button('Company Search', key='-Company_Tab-')],
     [psg.Text('Get Quote')],
     [psg.Text(text='Symbol: '), psg.Input(key='-SYMBOL-', do_not_clear=False)],
     [psg.Button('Search', key="Fetch_Quote")],
@@ -11,7 +11,7 @@ layoutOne = [
 ]
 
 layoutTwo = [
-    [psg.Button('Quote Search', key='Quotes_Pane')],
+    [psg.Button('Quote Search', key='-Quotes_Tab-')],
     [psg.Text('Get details on a company')],
     [psg.Text(text='Symbol: '), psg.Input(key='-COMPANY-', do_not_clear=False)],
     [psg.Button('Search', key="Search_Company")],
@@ -19,19 +19,19 @@ layoutTwo = [
 ]
 
 layout = [
-    [psg.Column(layoutOne, key='-QUOTE_COL-'), psg.Column(layoutTwo, key='-COMPANY_COL-', visible=False)],
+    [psg.Column(layoutOne, key='-Quotes_Pane-'), psg.Column(layoutTwo, key='-Company_Pane-', visible=False)],
 ]
+
+columns = ['-Quotes_Pane-', '-Company_Pane-']
 
 window = psg.Window('Market Search', layout, size=(715, 500))
 
 while True:
     event, values = window.read()
-    if (event == 'Company_Pane'):
-        window['-QUOTE_COL-'].update(visible=False)
-        window['-COMPANY_COL-'].update(visible=True)
-    if (event == 'Quotes_Pane'):
-        window['-QUOTE_COL-'].update(visible=True)
-        window['-COMPANY_COL-'].update(visible=False)
+    if (event in ['-Company_Tab-', '-Quotes_Tab-']):
+        for col in columns:
+            col_name = event.replace('_Tab-', '_Pane-')
+            window[col].update(visible=col == col_name)
     if (event == 'Fetch_Quote' and values and '-SYMBOL-' in values and isinstance(values['-SYMBOL-'], str)):
         window['-QUOTE-'].update(value='', visible=False)
         symbol = values['-SYMBOL-']
