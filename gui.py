@@ -3,7 +3,6 @@ from quote import get_quote
 from aiRequest import ask
 
 layoutOne = [
-    [psg.Button('Company Search', key='-Company_Tab-')],
     [psg.Text('Get Quote')],
     [psg.Text(text='Symbol: '), psg.Input(key='-SYMBOL-', do_not_clear=False)],
     [psg.Button('Search', key="Fetch_Quote")],
@@ -11,27 +10,34 @@ layoutOne = [
 ]
 
 layoutTwo = [
-    [psg.Button('Quote Search', key='-Quotes_Tab-')],
     [psg.Text('Get details on a company')],
     [psg.Text(text='Symbol: '), psg.Input(key='-COMPANY-', do_not_clear=False)],
     [psg.Button('Search', key="Search_Company")],
     [psg.Multiline(size=(80, 30), key='-OUTPUT-', autoscroll=True, visible=False)]
 ]
 
-layout = [
-    [psg.Column(layoutOne, key='-Quotes_Pane-'), psg.Column(layoutTwo, key='-Company_Pane-', visible=False)],
+layoutThree = [
+    [psg.Text('Watchlist')],
 ]
 
-columns = ['-Quotes_Pane-', '-Company_Pane-']
+layout = [
+    [[psg.Button('Quote Search', key='-Quotes_Tab-', disabled=True), psg.Button('Company Search', key='-Company_Tab-'), psg.Button('Watchlist', key='-Watchlist_Tab-')]],
+    [psg.Column(layoutOne, key='-Quotes_Pane-'), psg.Column(layoutTwo, key='-Company_Pane-', visible=False), psg.Column(layoutThree, key='-Watchlist_Pane-', visible=False)],
+]
+
+columns = ['-Quotes_Pane-', '-Company_Pane-', '-Watchlist_Pane-']
 
 window = psg.Window('Market Search', layout, size=(715, 500))
-
+events = ['-Company_Tab-', '-Quotes_Tab-', '-Watchlist_Tab-']
 while True:
     event, values = window.read()
-    if (event in ['-Company_Tab-', '-Quotes_Tab-']):
+    if (event in events):
         for col in columns:
             col_name = event.replace('_Tab-', '_Pane-')
             window[col].update(visible=col == col_name)
+        for e in events:
+            window[e].update(disabled=e == event)
+
     if (event == 'Fetch_Quote' and values and '-SYMBOL-' in values and isinstance(values['-SYMBOL-'], str)):
         window['-QUOTE-'].update(value='', visible=False)
         symbol = values['-SYMBOL-']
