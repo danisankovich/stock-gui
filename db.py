@@ -1,14 +1,23 @@
-# import sqlite3
+import json
+# temporarily using json in places of sqlite
 
-# cnt = sqlite3.connect("watchlist.dp")
-# cnt.execute('''CREATE TABLE watchlist(
-#             SYMBOL TEXT);''')
+def read_watchlist():
+    with open('watchlist.json', 'r') as f:
+        data = json.load(f)
+        return data
 
-# cnt.execute('''INSERT INTO watchlist(SYMBOL) VALUES('AAPL')''')
+def add_symbol(s):
+    symbol = s.upper()
+    data = read_watchlist()
+    if (symbol not in data):
+        data.append(symbol)
+        with open('watchlist.json', 'w') as f:
+            json.dump(data, f)
 
-# cnt.commit()
-
-# vals = cnt.execute('''SELECT * from watchlist''')
-
-# for i in vals:
-#     print(i[0])
+def remove_symbol(s):
+    symbol = s.upper()
+    data = read_watchlist()
+    if (symbol in data):
+        data.remove(symbol)
+        with open('watchlist.json', 'w') as f:
+            json.dump(data, f)
